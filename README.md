@@ -99,7 +99,7 @@ Usage:
  - previous rid      - the previous rid value that was replaced
  - new rid           - the new rid value to replace the previous
 Example:
-  ./replace_rid.sh user_id client_id
+  ./replace_rid.sh user_id user_id
 ```
 
 ## Email Campaign Setup

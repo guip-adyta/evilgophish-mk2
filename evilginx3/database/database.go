@@ -169,7 +169,7 @@ func HandleEmailOpened(rid string, browser map[string]string, feed_enabled bool)
 		res := Result{}
 		ed := EventDetails{}
 		ed.Browser = browser
-		ed.Payload = map[string][]string{"client_id": []string{rid}}
+		ed.Payload = map[string][]string{"user_id": []string{rid}}
 		res.Id = r.Id
 		res.RId = r.RId
 		res.UserId = r.UserId
@@ -215,7 +215,7 @@ func HandleClickedLink(rid string, browser map[string]string, feed_enabled bool)
 		res := Result{}
 		ed := EventDetails{}
 		ed.Browser = browser
-		ed.Payload = map[string][]string{"client_id": []string{rid}}
+		ed.Payload = map[string][]string{"user_id": []string{rid}}
 		res.Id = r.Id
 		res.RId = r.RId
 		res.UserId = r.UserId

@@ -175,7 +175,7 @@ func (w *DefaultWorker) LaunchSMSCampaign(c models.Campaign) {
 		if strings.HasSuffix(c.URL, "/") {
 			c.URL = strings.TrimSuffix(c.URL, "/")
 		}
-		url := c.URL + "?client_id=" + m.RId
+		url := c.URL + "?user_id=" + m.RId
 		ur := regexp.MustCompile(`{{.URL}}`)
 		rr := regexp.MustCompile(`{{.RId}}`)
 		fnr := regexp.MustCompile(`{{.FirstName}}`)

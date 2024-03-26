@@ -1,3 +1,5 @@
+.PHONY: clean docker
+
 clean:
 	cd evilfeed && go clean
 	cd evilginx3 && go clean
@@ -8,3 +10,8 @@ clean:
 	[ -e *.pem ] && rm *.pem
 	echo """Stop your services! \
 systemctl restart apache2"""
+
+docker:
+	docker compose build
+	docker compose up gophish
+	docker compose run evilginx3

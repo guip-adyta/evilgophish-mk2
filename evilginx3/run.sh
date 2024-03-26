@@ -1,9 +1,11 @@
 #!/bin/bash
 #
 # /opt/gophish/gophish.db
+# sleep 15
 /opt/evilginx3/evilginx3 \
-    -g /opt/gophish/gophish.db \ 
+    -g /opt/db/gophish.db \
     -p /opt/evilginx3/legacy_phishlets \
-    -developer 
-#    -c /config/evilginx \
-#    -developer
+    -c /opt/evilginx3/conf \
+    -developer
+
+tail -f /dev/null

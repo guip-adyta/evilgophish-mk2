@@ -1,9 +1,14 @@
-# Changes
+## TODO
+- apache2 service
 
-## Makefile
+## Changes
+
+### Makefile
 - `clean` target
+- `docker` targets
+  - `docker compose`
 
-## setup.sh
+### setup.sh
 `setup.sh` has been provided to automate the needed configurations for you. Once this script is run and you've fed it the right values, you should be ready to get started. Below is the setup help (note that certificate setup is based on `letsencrypt` filenames):
 
 ```

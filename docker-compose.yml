@@ -1,0 +1,22 @@
+version: "3"
+services:
+  gophish:
+    build: ./gophish
+    ports: 
+      - 3333:3333
+      - 8080:8080
+      - 8443:8443
+      - 80:80
+    volumes:
+      - shared:/opt/db
+
+  evilginx3:
+    build: ./evilginx3
+    ports: 
+      - 443:443
+      - 53:53
+    volumes:
+      - shared:/opt/db
+
+volumes:
+  shared:

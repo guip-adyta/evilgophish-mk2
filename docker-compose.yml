@@ -8,15 +8,23 @@ services:
       - 8443:8443
       - 80:80
     volumes:
-      - shared:/opt/db
+      - shared:/opt/db:rw
 
   evilginx3:
     build: ./evilginx3
+    stdin_open: true
+    tty: true
+    depends_on:
+      - gophish
     ports: 
       - 443:443
       - 53:53
+    extra_hosts:
+      - "localhost:127.0.0.1"
+      - "sub.localtest.com:127.0.0.1"
     volumes:
-      - shared:/opt/db
+      - shared:/opt/db:rw
 
 volumes:
   shared:
+    name: shared

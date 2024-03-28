@@ -28,7 +28,7 @@
   ],
   "phishlets": {
     "o365": {
-      "hostname": "example.sub.localtest.com",
+      "hostname": "sub.localtest.com",
       "enabled": true,
       "visible": true
     }

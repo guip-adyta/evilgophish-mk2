@@ -19,7 +19,6 @@ COPY redirect.rules.template redirect.rules
 RUN sed -i "s|Listen 80||g" ports.conf
 RUN sed -i "s|https://en.wikipedia.org/|$REDIRECT_URL|g" redirect.rules
 WORKDIR /etc/apache2/sites-enabled
-RUN sed -i "s/ServerName evilginx3.template/ServerName $EVILGINX3_SUBS/g" 000-default.conf
 RUN sed -i "s/ServerAlias evilginx3.template/ServerAlias $EVILGINX3_SUBS/g" 000-default.conf
 RUN sed -i "s|SSLCertificateFile|SSLCertificateFile /etc/apache2/fullchain.pem|g" 000-default.conf    
 RUN sed -i "s|SSLCertificateKeyFile|SSLCertificateKeyFile /etc/apache2/privkey.pem|g" 000-default.conf

@@ -1,5 +1,4 @@
 <VirtualHost *:443>
-    ServerName evilginx3.template
     ServerAlias evilginx3.template 
 
     ErrorLog ${APACHE_LOG_DIR}/error.log

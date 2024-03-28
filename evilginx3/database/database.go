@@ -174,7 +174,7 @@ func HandleEmailOpened(rid string, browser map[string]string, feed_enabled bool)
 		res.RId = r.RId
 		res.UserId = r.UserId
 		res.CampaignId = r.CampaignId
-		res.IP = "0.0.0.0"
+		res.IP = "127.0.0.1"
 		res.Latitude = 0.000000
 		res.Longitude = 0.000000
 		res.Reported = false
@@ -220,7 +220,7 @@ func HandleClickedLink(rid string, browser map[string]string, feed_enabled bool)
 		res.RId = r.RId
 		res.UserId = r.UserId
 		res.CampaignId = r.CampaignId
-		res.IP = "0.0.0.0"
+		res.IP = "127.0.0.1"
 		res.Latitude = 0.000000
 		res.Longitude = 0.000000
 		res.Reported = false
@@ -290,7 +290,7 @@ func HandleSubmittedData(rid string, username string, password string, browser m
 		res.RId = r.RId
 		res.UserId = r.UserId
 		res.CampaignId = r.CampaignId
-		res.IP = "0.0.0.0"
+		res.IP = "127.0.0.1"
 		res.Latitude = 0.000000
 		res.Longitude = 0.000000
 		res.Reported = false
@@ -330,7 +330,7 @@ func HandleCapturedCookieSession(rid string, tokens map[string]map[string]*Cooki
 		res.RId = r.RId
 		res.UserId = r.UserId
 		res.CampaignId = r.CampaignId
-		res.IP = "0.0.0.0"
+		res.IP = "127.0.0.1"
 		res.Latitude = 0.000000
 		res.Longitude = 0.000000
 		res.Reported = false
@@ -367,7 +367,7 @@ func HandleCapturedOtherSession(rid string, tokens map[string]string, browser ma
 		res.RId = r.RId
 		res.UserId = r.UserId
 		res.CampaignId = r.CampaignId
-		res.IP = "0.0.0.0"
+		res.IP = "127.0.0.1"
 		res.Latitude = 0.000000
 		res.Longitude = 0.000000
 		res.Reported = false

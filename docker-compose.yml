@@ -22,7 +22,6 @@ services:
     build: ./apache2
     ports:
       - 443:443
-      - 80:80
     environment:
       EVILGINX3_SUBS: sub.localtest.com
       REDIRECT_URL: https://microsoft.com
@@ -44,3 +43,6 @@ volumes:
 # curl -H 'Host: sub.localtest.com' https://example.sub.localtest.com/login
 # vi /etc/resolv.conf >>> nameserver 1.1.1.1
 # vi /etc/hosts
+
+# lsof -i :53
+# nslookup login.example.sub.localtest.com

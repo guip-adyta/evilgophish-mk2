@@ -150,7 +150,7 @@ func (c *Client) DialContext(ctx context.Context, address string) (conn *Conn, e
 // contained in a and waits for a reply. Basic use pattern with a *dns.Client:
 //
 //	c := new(dns.Client)
-//	in, rtt, err := c.Exchange(message, "127.0.0.1:53")
+//	in, rtt, err := c.Exchange(message, "0.0.0.0:53")
 //
 // Exchange does not retry a failed query, nor will it fall back to TCP in
 // case of truncation.

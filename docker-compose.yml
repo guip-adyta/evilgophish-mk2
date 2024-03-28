@@ -4,27 +4,43 @@ services:
     build: ./gophish
     ports: 
       - 3333:3333
-      - 8080:8080
-      - 8443:8443
-      - 80:80
     volumes:
       - shared:/opt/db:rw
-
   evilginx3:
     build: ./evilginx3
     stdin_open: true
     tty: true
+    dns:
+      - 8.8.8.8
     depends_on:
       - gophish
-    ports: 
-      - 443:443
+    ports:
       - 53:53
-    extra_hosts:
-      - "localhost:127.0.0.1"
-      - "sub.localtest.com:127.0.0.1"
     volumes:
       - shared:/opt/db:rw
+  apache2:
+    build: ./apache2
+    ports:
+      - 443:443
+      - 80:80
+    environment:
+      EVILGINX3_SUBS: sub.localtest.com
+      REDIRECT_URL: https://microsoft.com
 
 volumes:
   shared:
     name: shared
+
+# docker compose down
+#1. docker compose up --build -d 
+#2. docker attach evilgophish-mk2-evilginx3-1 
+
+# ping gophish
+# docker exec -it evilgophish-mk2-apache2-1 /bin/bash
+# cat /var/log/apache2/error.log
+# ---
+# docker exec -it evilgophish-mk2-evilginx3-1 /bin/bash
+# apt update && apt install -y dnsutils vim curl
+# curl -H 'Host: sub.localtest.com' https://example.sub.localtest.com/login
+# vi /etc/resolv.conf >>> nameserver 1.1.1.1
+# vi /etc/hosts

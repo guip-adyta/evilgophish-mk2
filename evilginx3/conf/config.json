@@ -6,7 +6,7 @@
     "bind_ipv4": "",
     "dns_port": 53,
     "domain": "sub.localtest.com",
-    "external_ipv4": "127.0.0.1",
+    "external_ipv4": "0.0.0.0",
     "https_port": 443,
     "ipv4": "",
     "redirect_url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ"

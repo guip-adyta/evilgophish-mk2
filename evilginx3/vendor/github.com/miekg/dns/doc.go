@@ -52,10 +52,10 @@ The following is slightly more verbose, but more flexible:
 	m1.Question[0] = dns.Question{"miek.nl.", dns.TypeMX, dns.ClassINET}
 
 After creating a message it can be sent. Basic use pattern for synchronous
-querying the DNS at a server configured on 127.0.0.1 and port 53:
+querying the DNS at a server configured on 0.0.0.0 and port 53:
 
-	c := new(dns.Client)
-	in, rtt, err := c.Exchange(m1, "127.0.0.1:53")
+     c := new(dns.Client)
+     in, rtt, err := c.Exchange(m1, "0.0.0.0:53")
 
 Suppressing multiple outstanding queries (with the same question, type and
 class) is as easy as setting:
@@ -81,7 +81,7 @@ and port to use for the connection:
 If these "advanced" features are not needed, a simple UDP query can be sent,
 with:
 
-	in, err := dns.Exchange(m1, "127.0.0.1:53")
+	in, err := dns.Exchange(m1, "0.0.0.0:53")
 
 When this functions returns you will get DNS message. A DNS message consists
 out of four sections.

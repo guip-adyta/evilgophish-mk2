@@ -139,7 +139,7 @@ func (cfg *Config) getCertificateFromCache(hello *tls.ClientHelloInfo) (cert Cer
 	// change to certificate matching behavior must
 	// account for hosts defined where the hostname
 	// is empty or a catch-all, like ":443" or
-	// "0.0.0.0:443")
+	// "127.0.0.1:443")
 
 	return
 }

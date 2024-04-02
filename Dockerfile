@@ -20,6 +20,7 @@ RUN go get -v && go build -v
 FROM golang:1.22 AS build-golang-evilginx3
 WORKDIR /go/src/github.com/evilginx3/evilginx3
 COPY evilginx3/. .
+RUN go get -v && go mod vendor
 RUN go get -v && go build -v -o evilginx3
 
 # Runtime container

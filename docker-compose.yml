@@ -15,15 +15,16 @@ services:
     depends_on:
       - gophish
     ports:
+      - 443:443
       - 53:53
     volumes:
       - shared:/opt/db:rw
   apache2:
     build: ./apache2
     ports:
-      - 443:443
+      - 8443:443
     environment:
-      EVILGINX3_SUBS: sub.localtest.com
+      EVILGINX3_SUBS: test.com
       REDIRECT_URL: https://microsoft.com
 
 volumes:

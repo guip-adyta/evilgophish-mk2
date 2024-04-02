@@ -422,7 +422,7 @@ You can use remote configuration in conjunction with local configuration, or
 independently of it.
 
 `crypt` has a command-line helper that you can use to put configurations in your
-K/V store. `crypt` defaults to etcd on http://0.0.0.0:4001.
+K/V store. `crypt` defaults to etcd on http://127.0.0.1:4001.
 
 ```bash
 $ go get github.com/bketelsen/crypt/bin/crypt
@@ -442,7 +442,7 @@ how to use Consul.
 
 #### etcd
 ```go
-viper.AddRemoteProvider("etcd", "http://0.0.0.0:4001","/config/hugo.json")
+viper.AddRemoteProvider("etcd", "http://127.0.0.1:4001","/config/hugo.json")
 viper.SetConfigType("json") // because there is no file extension in a stream of bytes, supported extensions are "json", "toml", "yaml", "yml", "properties", "props", "prop", "env", "dotenv"
 err := viper.ReadRemoteConfig()
 ```
@@ -480,7 +480,7 @@ Of course, you're allowed to use `SecureRemoteProvider` also
 ### Remote Key/Value Store Example - Encrypted
 
 ```go
-viper.AddSecureRemoteProvider("etcd","http://0.0.0.0:4001","/config/hugo.json","/etc/secrets/mykeyring.gpg")
+viper.AddSecureRemoteProvider("etcd","http://127.0.0.1:4001","/config/hugo.json","/etc/secrets/mykeyring.gpg")
 viper.SetConfigType("json") // because there is no file extension in a stream of bytes,  supported extensions are "json", "toml", "yaml", "yml", "properties", "props", "prop", "env", "dotenv"
 err := viper.ReadRemoteConfig()
 ```
@@ -491,7 +491,7 @@ err := viper.ReadRemoteConfig()
 // alternatively, you can create a new viper instance.
 var runtime_viper = viper.New()
 
-runtime_viper.AddRemoteProvider("etcd", "http://0.0.0.0:4001", "/config/hugo.yml")
+runtime_viper.AddRemoteProvider("etcd", "http://127.0.0.1:4001", "/config/hugo.yml")
 runtime_viper.SetConfigType("yaml") // because there is no file extension in a stream of bytes, supported extensions are "json", "toml", "yaml", "yml", "properties", "props", "prop", "env", "dotenv"
 
 // read from remote config the first time.
@@ -562,7 +562,7 @@ example, if the following JSON file is loaded:
     },
     "datastore": {
         "metric": {
-            "host": "0.0.0.0",
+            "host": "127.0.0.1",
             "port": 3099
         },
         "warehouse": {
@@ -577,7 +577,7 @@ example, if the following JSON file is loaded:
 Viper can access a nested field by passing a `.` delimited path of keys:
 
 ```go
-GetString("datastore.metric.host") // (returns "0.0.0.0")
+GetString("datastore.metric.host") // (returns "127.0.0.1")
 ```
 
 This obeys the precedence rules established above; the search for the path
@@ -605,7 +605,7 @@ Viper can access array indices by using numbers in the path. For example:
     },
     "datastore": {
         "metric": {
-            "host": "0.0.0.0",
+            "host": "127.0.0.1",
             "port": 3099
         },
         "warehouse": {
@@ -624,14 +624,14 @@ will be returned instead. E.g.
 
 ```json
 {
-    "datastore.metric.host": "0.0.0.0",
+    "datastore.metric.host": "127.0.0.1",
     "host": {
         "address": "localhost",
         "port": 5799
     },
     "datastore": {
         "metric": {
-            "host": "0.0.0.0",
+            "host": "127.0.0.1",
             "port": 3099
         },
         "warehouse": {
@@ -641,7 +641,7 @@ will be returned instead. E.g.
     }
 }
 
-GetString("datastore.metric.host") // returns "0.0.0.0"
+GetString("datastore.metric.host") // returns "127.0.0.1"
 ```
 
 ### Extracting a sub-tree

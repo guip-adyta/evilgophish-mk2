@@ -25,7 +25,7 @@
 // important, Conn is used to set the type-of-service field on the
 // IPv4 header for each packet.
 //
-//	ln, err := net.Listen("tcp4", "0.0.0.0:1024")
+//	ln, err := net.Listen("tcp4", "127.0.0.1:1024")
 //	if err != nil {
 //		// error handling
 //	}
@@ -71,7 +71,7 @@
 // First, an application listens to an appropriate address with an
 // appropriate service port.
 //
-//	c, err := net.ListenPacket("udp4", "0.0.0.0:1024")
+//	c, err := net.ListenPacket("udp4", "127.0.0.1:1024")
 //	if err != nil {
 //		// error handling
 //	}
@@ -146,7 +146,7 @@
 // join two different groups across over two different network
 // interfaces by using:
 //
-//	c, err := net.ListenPacket("udp4", "0.0.0.0:1024")
+//	c, err := net.ListenPacket("udp4", "127.0.0.1:1024")
 //	if err != nil {
 //		// error handling
 //	}

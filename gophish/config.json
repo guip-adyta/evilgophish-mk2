@@ -13,7 +13,7 @@
     },
     "feed_enabled": true,
     "db_name": "sqlite3",
-    "db_path": "/opt/db/gophish.db",
+    "db_path": "/opt/gophish/db/gophish.db",
     "migrations_prefix": "db/db_",
     "contact_address": "",
     "logging": {

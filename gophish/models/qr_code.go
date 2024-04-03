@@ -1,6 +1,7 @@
 package models
 
 import (
+	"bytes"
 	"encoding/base64"
 	"fmt"
 	"io/ioutil"
@@ -8,6 +9,7 @@ import (
 	"path/filepath"
 	"strconv"
 
+	"github.com/mdp/qrterminal/v3"
 	"github.com/skip2/go-qrcode"
 )
 
@@ -72,4 +74,25 @@ func generateQRCode(content string, stringSize string) (string, string, error) {
 	base64QRCode := base64.StdEncoding.EncodeToString(qrCodeBytes)
 
 	return base64QRCode, tempFileName, nil
+}
+
+type AsciiQRCodeWriter struct {
+	Buffer bytes.Buffer
+}
+
+func (w *AsciiQRCodeWriter) Write(p []byte) (n int, err error) {
+	return w.Buffer.Write(p)
+}
+
+func generateAsciiQRCode(content string) (string, error) {
+	writer := &AsciiQRCodeWriter{}
+	config := qrterminal.Config{
+		Level:     qrterminal.M,
+		Writer:    writer,
+		BlackChar: qrterminal.WHITE,
+		WhiteChar: qrterminal.BLACK,
+		QuietZone: 1,
+	}
+	qrterminal.GenerateWithConfig(content, config)
+	return writer.Buffer.String(), nil
 }

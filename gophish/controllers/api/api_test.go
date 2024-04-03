@@ -78,7 +78,7 @@ func createTestData(t *testing.T) {
 	c := models.Campaign{Name: "Test campaign"}
 	c.UserId = 1
 	c.Template = template
-	c.Page = p
+	//c.Page = p
 	c.SMTP = smtp
 	c.Groups = []models.Group{group}
 	models.PostCampaign(&c, c.UserId)

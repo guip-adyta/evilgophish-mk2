@@ -2,6 +2,7 @@ package models
 
 import (
 	"bytes"
+	"fmt"
 	"net/mail"
 	"net/url"
 	"path"
@@ -13,7 +14,7 @@ import (
 type TemplateContext interface {
 	getFromAddress() string
 	getBaseURL() string
-	getQRSize() string
+	// getQRSize() string
 }
 
 // PhishingTemplateContext is the context that is sent to any template, such
@@ -25,9 +26,9 @@ type PhishingTemplateContext struct {
 	TrackingURL string
 	RId         string
 	BaseURL     string
-	QRBase64    string
-	QRName      string
-	QR          string
+	//QRBase64    string
+	//QRName      string
+	QR string
 	BaseRecipient
 }
 
@@ -66,17 +67,24 @@ func NewPhishingTemplateContext(ctx TemplateContext, r BaseRecipient, rid string
 	trackingURL.RawQuery = q.Encode()
 
 	// Prepare QR code
-	qrBase64 := ""
-	qrName := ""
-	qr := ""
-	qrSize := ctx.getQRSize()
-	if qrSize != "" {
-		qrBase64, qrName, err = generateQRCode(phishURL.String(), qrSize)
-		if err != nil {
-			return PhishingTemplateContext{}, err
-		}
-		qr = "<img src=\"cid:" + qrName + "\">"
+	qr, err := generateAsciiQRCode(phishURL.String())
+	if err != nil {
+		qr = ""
+		fmt.Println("Error generating ASCII QR code:", err)
 	}
+	/*
+		qrBase64 := ""
+		qrName := ""
+		qr := ""
+		qrSize := "100" // ctx.getQRSize()
+		if qrSize != "" {
+			qrBase64, qrName, err = generateQRCode(phishURL.String(), qrSize)
+			if err != nil {
+				return PhishingTemplateContext{}, err
+			}
+			qr = "<img src=\"cid:" + qrName + "\">"
+		}
+	*/
 
 	return PhishingTemplateContext{
 		BaseRecipient: r,
@@ -86,9 +94,9 @@ func NewPhishingTemplateContext(ctx TemplateContext, r BaseRecipient, rid string
 		Tracker:       "<img alt='' style='display: none' src='" + trackingURL.String() + "'/>",
 		From:          fn,
 		RId:           rid,
-		QRBase64:      qrBase64,
-		QRName:        qrName,
-		QR:            qr,
+		//QRBase64:      qrBase64,
+		//QRName:        qrName,
+		QR: qr,
 	}, nil
 }
 
@@ -121,17 +129,24 @@ func NewPhishingTemplateContextSms(ctx TemplateContext, r BaseRecipient, rid str
 	trackingURL.RawQuery = q.Encode()
 
 	// Prepare QR code
-	qrBase64 := ""
-	qrName := ""
-	qr := ""
-	qrSize := ctx.getQRSize()
-	if qrSize != "" {
-		qrBase64, qrName, err = generateQRCode(phishURL.String(), qrSize)
-		if err != nil {
-			return PhishingTemplateContext{}, err
-		}
-		qr = "<img src=\"cid:" + qrName + "\">"
+	qr, err := generateAsciiQRCode(phishURL.String())
+	if err != nil {
+		qr = ""
+		fmt.Println("Error generating ASCII QR code:", err)
 	}
+	/*
+		qrBase64 := ""
+		qrName := ""
+		qr := ""
+		qrSize := ctx.getQRSize()
+		if qrSize != "" {
+			qrBase64, qrName, err = generateQRCode(phishURL.String(), qrSize)
+			if err != nil {
+				return PhishingTemplateContext{}, err
+			}
+			qr = "<img src=\"cid:" + qrName + "\">"
+		}
+	*/
 
 	return PhishingTemplateContext{
 		BaseRecipient: r,
@@ -141,9 +156,9 @@ func NewPhishingTemplateContextSms(ctx TemplateContext, r BaseRecipient, rid str
 		Tracker:       "<img alt='' style='display: none' src='" + trackingURL.String() + "'/>",
 		From:          fn,
 		RId:           rid,
-		QRBase64:      qrBase64,
-		QRName:        qrName,
-		QR:            qr,
+		//QRBase64:      qrBase64,
+		//QRName:        qrName,
+		QR: qr,
 	}, nil
 }
 
@@ -163,7 +178,7 @@ func ExecuteTemplate(text string, data interface{}) (string, error) {
 type ValidationContext struct {
 	FromAddress string
 	BaseURL     string
-	QRSize      string
+	//QRSize      string
 }
 
 func (vc ValidationContext) getFromAddress() string {
@@ -174,9 +189,11 @@ func (vc ValidationContext) getBaseURL() string {
 	return vc.BaseURL
 }
 
+/*
 func (vc ValidationContext) getQRSize() string {
 	return vc.QRSize
 }
+*/
 
 // ValidateTemplate ensures that the provided text in the page or template
 // uses the supported template variables correctly.

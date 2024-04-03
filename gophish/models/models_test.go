@@ -86,7 +86,7 @@ func (s *ModelsSuite) createCampaignDependencies(ch *check.C, optional ...string
 	c := Campaign{Name: "Test campaign"}
 	c.UserId = 1
 	c.Template = t
-	c.Page = p
+	//c.Page = p
 	c.SMTP = smtp
 	c.Groups = []Group{group}
 	return c

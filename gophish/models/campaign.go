@@ -33,7 +33,7 @@ type Campaign struct {
 	SMTP          SMTP      `json:"smtp"`
 	SMS           SMS       `json:"sms"`
 	URL           string    `json:"url"`
-	// QRSize        string    `json:"qrsize"`
+	QRSize        string    `json:"qrsize"`
 }
 
 // CampaignResults is a struct representing the results from a campaign
@@ -257,11 +257,9 @@ func (c *Campaign) getFromAddress() string {
 }
 
 // This is used to implement the TemplateContext interface.
-/*
 func (c *Campaign) getQRSize() string {
 	return c.QRSize
 }
-*/
 
 // generateSendDate creates a sendDate
 func (c *Campaign) generateSendDate(idx int, totalRecipients int) time.Time {

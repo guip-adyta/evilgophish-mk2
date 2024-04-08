@@ -2,79 +2,12 @@ package models
 
 import (
 	"bytes"
-	"encoding/base64"
 	"fmt"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-	"strconv"
+	"regexp"
+	"strings"
 
 	"github.com/mdp/qrterminal/v3"
-	"github.com/skip2/go-qrcode"
 )
-
-// generateQRCode generates a QR code with the given content and size, saves it to a temporary file,
-// encodes the image to a base64 string, and then deletes the temporary file.
-func generateQRCode(content string, stringSize string) (string, string, error) {
-	// Set the temporary directory
-	tempDir := "./temp_qr_codes"
-
-	// Ensure the temporary directory exists
-	if _, err := os.Stat(tempDir); os.IsNotExist(err) {
-		err := os.MkdirAll(tempDir, os.ModePerm)
-		if err != nil {
-			return "", "", fmt.Errorf("failed to create temporary directory: %v", err)
-		}
-	}
-
-	// Generate the QR code
-	qrCode, err := qrcode.New(content, qrcode.Medium)
-	if err != nil {
-		return "", "", fmt.Errorf("failed to generate QR code: %v", err)
-	}
-	qrCode.DisableBorder = true
-
-	// Create a temporary file for the QR code. The pattern "qr-*.png" ensures a unique filename for each QR code.
-	tempFile, err := ioutil.TempFile(tempDir, "*.png")
-	if err != nil {
-		return "", "", fmt.Errorf("failed to create temporary file: %v", err)
-	}
-	tempFilePath := tempFile.Name()
-	tempFileName := filepath.Base(tempFilePath) // Extract just the filename
-	tempFile.Close()                            // Close the file so it can be removed after reading
-
-	// Convert the size to an int
-	size, err := strconv.Atoi(stringSize)
-	if err != nil {
-		return "", "", fmt.Errorf("failed to convert QR code size to int: %v", err)
-	}
-
-	// Write the QR code to the file
-	err = qrCode.WriteFile(size, tempFilePath)
-	if err != nil {
-		os.Remove(tempFilePath) // Attempt to remove the file in case of error
-		return "", "", fmt.Errorf("failed to write QR code to file: %v", err)
-	}
-
-	// Read the file back to get the byte slice
-	qrCodeBytes, err := ioutil.ReadFile(tempFilePath)
-	if err != nil {
-		os.Remove(tempFilePath) // Clean up
-		return "", "", fmt.Errorf("failed to read temporary QR code file: %v", err)
-	}
-
-	// Delete the temporary file
-	err = os.Remove(tempFilePath)
-	if err != nil {
-		// Log the error but proceed
-		fmt.Println("Warning: Failed to delete temporary QR code file:", err)
-	}
-
-	// Encode the byte slice to a base64 string
-	base64QRCode := base64.StdEncoding.EncodeToString(qrCodeBytes)
-
-	return base64QRCode, tempFileName, nil
-}
 
 type AsciiQRCodeWriter struct {
 	Buffer bytes.Buffer
@@ -84,15 +17,24 @@ func (w *AsciiQRCodeWriter) Write(p []byte) (n int, err error) {
 	return w.Buffer.Write(p)
 }
 
-func generateAsciiQRCode(content string) (string, error) {
+func generateAsciiQRCode(content string, stringSize string) (string, error) {
+	if !strings.HasSuffix(stringSize, "px") {
+		stringSize += "px"
+	}
 	writer := &AsciiQRCodeWriter{}
 	config := qrterminal.Config{
-		Level:     qrterminal.M,
-		Writer:    writer,
-		BlackChar: qrterminal.WHITE,
-		WhiteChar: qrterminal.BLACK,
-		QuietZone: 1,
+		Level:          qrterminal.M,
+		Writer:         writer,
+		HalfBlocks:     true,
+		BlackChar:      "&#9608;",
+		BlackWhiteChar: "&#9600;",
+		WhiteChar:      "&nbsp;",
+		WhiteBlackChar: "&#9604;",
+		QuietZone:      1,
 	}
 	qrterminal.GenerateWithConfig(content, config)
-	return writer.Buffer.String(), nil
+	re := regexp.MustCompile(`\n`)
+	stdrQr := re.ReplaceAllString(writer.Buffer.String(), "<br>\n")
+	qrPack := fmt.Sprintf("<p style=\"font-family:monospace;font-size:%s;line-height:%s\">\n%s</p>", stringSize, stringSize, stdrQr)
+	return qrPack, nil
 }

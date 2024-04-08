@@ -41,11 +41,9 @@ func (s *EmailRequest) getFromAddress() string {
 	return s.FromAddress
 }
 
-/*
 func (s *EmailRequest) getQRSize() string {
-	return ""
+	return "15px"
 }
-*/
 
 // Validate ensures the SendTestEmailRequest structure
 // is valid.

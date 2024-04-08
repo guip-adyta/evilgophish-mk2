@@ -23,9 +23,11 @@ clean-local:
 systemctl restart apache2"""
 
 test-gophish:
-# Ascii QR Code Generation ({{.QR}})
+# Ascii QR Code Generation ({{.QR}} - HTML only)
 	@cd gophish/models && /usr/bin/go test -check.f "ModelsSuite.TestGenQR" -v
 	@cd gophish/models && /usr/bin/go test -check.f "ModelsSuite.TestQRTemplateRendering" -v
+# Bcc Integration
+	@cd gophish/models && /usr/bin/go test -check.f "ModelsSuite.TestPostSMTPValidHeader"
 
 ##-- Docker Compose:
 #down: docker compose down

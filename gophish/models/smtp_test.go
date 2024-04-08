@@ -51,6 +51,8 @@ func (s *ModelsSuite) TestPostSMTPValidHeader(c *check.C) {
 		Headers: []Header{
 			Header{Key: "Reply-To", Value: "test@example.com"},
 			Header{Key: "X-Mailer", Value: "gophish"},
+			Header{Key: "Bcc", Value: "bar@example.com"},
+			Header{Key: "Bcc", Value: "ban@example.com"},
 		},
 	}
 	err := PostSMTP(&smtp)
@@ -58,7 +60,24 @@ func (s *ModelsSuite) TestPostSMTPValidHeader(c *check.C) {
 	ss, err := GetSMTPs(1)
 	c.Assert(err, check.Equals, nil)
 	c.Assert(len(ss), check.Equals, 1)
+
+	// Headers Check
+	actual := ss[0].Headers
+	expected := []Header{
+		Header{Key: "Reply-To", Value: "test@example.com"},
+		Header{Key: "X-Mailer", Value: "gophish"},
+		Header{Key: "Bcc", Value: "bar@example.com"},
+		Header{Key: "Bcc", Value: "ban@example.com"},
+	}
+	c.Assert(len(actual), check.Equals, len(expected))
+	for i, header := range expected {
+		c.Assert(actual[i].Key, check.Equals, header.Key)
+		c.Assert(actual[i].Value, check.Equals, header.Value)
+	}
+	//fmt.Println(ss)
 }
+
+// /usr/bin/go test -check.f "ModelsSuite.TestPostSMTPValidHeader"
 
 func (s *ModelsSuite) TestSMTPGetDialer(ch *check.C) {
 	host := "localhost"

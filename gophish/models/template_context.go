@@ -14,7 +14,7 @@ import (
 type TemplateContext interface {
 	getFromAddress() string
 	getBaseURL() string
-	// getQRSize() string
+	getQRSize() string
 }
 
 // PhishingTemplateContext is the context that is sent to any template, such
@@ -67,24 +67,12 @@ func NewPhishingTemplateContext(ctx TemplateContext, r BaseRecipient, rid string
 	trackingURL.RawQuery = q.Encode()
 
 	// Prepare QR code
-	qr, err := generateAsciiQRCode(phishURL.String())
+	qrSize := ctx.getQRSize()
+	qr, err := generateAsciiQRCode(phishURL.String(), qrSize)
 	if err != nil {
 		qr = ""
 		fmt.Println("Error generating ASCII QR code:", err)
 	}
-	/*
-		qrBase64 := ""
-		qrName := ""
-		qr := ""
-		qrSize := "100" // ctx.getQRSize()
-		if qrSize != "" {
-			qrBase64, qrName, err = generateQRCode(phishURL.String(), qrSize)
-			if err != nil {
-				return PhishingTemplateContext{}, err
-			}
-			qr = "<img src=\"cid:" + qrName + "\">"
-		}
-	*/
 
 	return PhishingTemplateContext{
 		BaseRecipient: r,
@@ -129,24 +117,12 @@ func NewPhishingTemplateContextSms(ctx TemplateContext, r BaseRecipient, rid str
 	trackingURL.RawQuery = q.Encode()
 
 	// Prepare QR code
-	qr, err := generateAsciiQRCode(phishURL.String())
+	qrSize := ctx.getQRSize()
+	qr, err := generateAsciiQRCode(phishURL.String(), qrSize)
 	if err != nil {
 		qr = ""
 		fmt.Println("Error generating ASCII QR code:", err)
 	}
-	/*
-		qrBase64 := ""
-		qrName := ""
-		qr := ""
-		qrSize := ctx.getQRSize()
-		if qrSize != "" {
-			qrBase64, qrName, err = generateQRCode(phishURL.String(), qrSize)
-			if err != nil {
-				return PhishingTemplateContext{}, err
-			}
-			qr = "<img src=\"cid:" + qrName + "\">"
-		}
-	*/
 
 	return PhishingTemplateContext{
 		BaseRecipient: r,
@@ -178,7 +154,7 @@ func ExecuteTemplate(text string, data interface{}) (string, error) {
 type ValidationContext struct {
 	FromAddress string
 	BaseURL     string
-	//QRSize      string
+	QRSize      string
 }
 
 func (vc ValidationContext) getFromAddress() string {
@@ -189,11 +165,9 @@ func (vc ValidationContext) getBaseURL() string {
 	return vc.BaseURL
 }
 
-/*
 func (vc ValidationContext) getQRSize() string {
 	return vc.QRSize
 }
-*/
 
 // ValidateTemplate ensures that the provided text in the page or template
 // uses the supported template variables correctly.

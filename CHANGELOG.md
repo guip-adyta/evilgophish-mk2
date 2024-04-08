@@ -105,3 +105,19 @@ Added enhancements to the SMS sending process, allowing users to specify a launc
 # 03/11/2024
 
 Changed the rID generator algorithm so that not all rID values are a set character length.
+
+# 03/30/2024
+
+Added `evilginx3` commit [kgretzky/evilginx2@edadd5233907985f550e11f144924b1a1882f944](https://github.com/kgretzky/evilginx2/commit/edadd5233907985f550e11f144924b1a1882f944) adding support for JSON force post functionality.
+
+# 04/03/2024
+
+Removed `Gophish` email transparency headers.
+
+# 04/06/2024
+
+Made some improvements to the feed application including error logging via JavaScript, increased timeouts, and the disablement of cross-origin checks.
+
+# 04/07/2024
+
+Replaced `Apache2` redirect rules and IP blacklist hardening with `Cloudflare Turnstile`.

@@ -28,13 +28,3 @@ test-gophish:
 	@cd gophish/models && /usr/bin/go test -check.f "ModelsSuite.TestQRTemplateRendering" -v
 # Bcc Integration
 	@cd gophish/models && /usr/bin/go test -check.f "ModelsSuite.TestPostSMTPValidHeader"
-
-##-- Docker Compose:
-#down: docker compose down
-#docker:
-#	docker compose up --build -d
-#	docker attach evilgophish-mk2-evilginx3-1
-#docker compose build
-#docker compose up gophish
-#docker compose run evilginx3
-##--

@@ -56,3 +56,23 @@ WORKDIR /opt
 COPY run_all.sh .
 EXPOSE 3333 8080 8443 80 443 53
 CMD ["/opt/run_all.sh"]
+
+
+## Notes
+# ---
+# docker compose down
+#1. docker compose up --build -d 
+#2. docker attach evilgophish-mk2-evilginx3-1 
+# ---
+# ping gophish
+# docker exec -it evilgophish-mk2-apache2-1 /bin/bash
+# cat /var/log/apache2/error.log
+# ---
+# docker exec -it evilgophish-mk2-evilginx3-1 /bin/bash
+# apt update && apt install -y dnsutils vim curl
+# curl -H 'Host: sub.localtest.com' https://example.sub.localtest.com/login
+# vi /etc/resolv.conf >>> nameserver 1.1.1.1
+# vi /etc/hosts
+# ---
+# lsof -i :53
+# nslookup login.example.sub.localtest.com

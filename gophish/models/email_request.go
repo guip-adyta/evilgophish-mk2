@@ -41,7 +41,7 @@ func (s *EmailRequest) getFromAddress() string {
 }
 
 func (s *EmailRequest) getQRSize() string {
-	return "15px"
+	return "8px"
 }
 
 // Validate ensures the SendTestEmailRequest structure
@@ -134,6 +134,7 @@ func (s *EmailRequest) Generate(msg *gomail.Message) error {
 		// Add our header immediately
 		msg.SetHeader(key, value)
 	}
+	// TODO: Parse single 'bcc' statement as: 'bcc <email1>, <email2>'
 
 	// Parse remaining templates
 	subject, err := ExecuteTemplate(s.Template.Subject, ptx)

@@ -20,7 +20,7 @@ func (m mockTemplateContext) getBaseURL() string {
 }
 
 func (m mockTemplateContext) getQRSize() string {
-	return "15px"
+	return "8px"
 }
 
 func (s *ModelsSuite) TestNewTemplateContext(c *check.C) {

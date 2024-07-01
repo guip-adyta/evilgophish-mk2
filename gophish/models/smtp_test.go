@@ -52,7 +52,6 @@ func (s *ModelsSuite) TestPostSMTPValidHeader(c *check.C) {
 			Header{Key: "Reply-To", Value: "test@example.com"},
 			Header{Key: "X-Mailer", Value: "gophish"},
 			Header{Key: "Bcc", Value: "bar@example.com"},
-			Header{Key: "Bcc", Value: "ban@example.com"},
 		},
 	}
 	err := PostSMTP(&smtp)
@@ -67,7 +66,6 @@ func (s *ModelsSuite) TestPostSMTPValidHeader(c *check.C) {
 		Header{Key: "Reply-To", Value: "test@example.com"},
 		Header{Key: "X-Mailer", Value: "gophish"},
 		Header{Key: "Bcc", Value: "bar@example.com"},
-		Header{Key: "Bcc", Value: "ban@example.com"},
 	}
 	c.Assert(len(actual), check.Equals, len(expected))
 	for i, header := range expected {

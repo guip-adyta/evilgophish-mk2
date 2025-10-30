@@ -232,71 +232,30 @@ function load() {
         })
 }
 
-function isEmail(email) {
-    var emRgx = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return emRgx.test(email);
-}
-
 function addCustomHeader(header, value) {
-    var cmRgx = /,\s*/;
-    //--- Row
-    var eHeader = escapeHtml(header);
-    var eValue = escapeHtml(value);
-    var headerHTML = '<span style="cursor:pointer;"><i class="fa fa-trash-o"></i></span>';
-    //---
-    var newRows = [];
-    var headersTable = headers.DataTable();
-
     // Create new data row.
-    // Blind Carbon Copy check.
-    if (/bcc/i.test(eHeader)) {
-        if (cmRgx.test(eValue)) { // List of emails
-            var emails = eValue.split(cmRgx);
-            emails.forEach(function(email) {
-                if (isEmail(email)) {
-                    newRows.push([
-                        eHeader,
-                        email.trim(),
-                        headerHTML
-                    ])
-                }
-            });
-        } else { // Single email
-            newRows.push([
-                eHeader,
-                eValue,
-                headerHTML
-            ])
-        }
-        newRows.forEach(function(newRow) {
-            headersTable.row.add(newRow);
-        });
-    } else { // Other headers
-        newRows.push([
-            eHeader,
-            eValue,
-            headerHTML
-        ])
-        // Check table to see if header already exists.
-        var existingRowIndex = headersTable
-            .column(0) // Email column has index of 2
-            .data()
-            .indexOf(eHeader);
+    var newRow = [
+        escapeHtml(header),
+        escapeHtml(value),
+        '<span style="cursor:pointer;"><i class="fa fa-trash-o"></i></span>'
+    ];
 
-        // Update or add new row as necessary.
-        if (existingRowIndex >= 0) {
-            newRows.forEach(function(newRow) {
-                headersTable
-                    .row(existingRowIndex, {
-                        order: "index"
-                    })
-                    .data(newRow);
-            });
-        } else {
-            newRows.forEach(function(newRow) {
-                headersTable.row.add(newRow);
-            });
-        }
+    // Check table to see if header already exists.
+    var headersTable = headers.DataTable();
+    var existingRowIndex = headersTable
+        .column(0) // Email column has index of 2
+        .data()
+        .indexOf(escapeHtml(header));
+
+    // Update or add new row as necessary.
+    if (existingRowIndex >= 0) {
+        headersTable
+            .row(existingRowIndex, {
+                order: "index"
+            })
+            .data(newRow);
+    } else {
+        headersTable.row.add(newRow);
     }
     headersTable.draw();
 }

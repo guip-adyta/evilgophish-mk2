@@ -54,8 +54,8 @@ The following is slightly more verbose, but more flexible:
 After creating a message it can be sent. Basic use pattern for synchronous
 querying the DNS at a server configured on 127.0.0.1 and port 53:
 
-     c := new(dns.Client)
-     in, rtt, err := c.Exchange(m1, "127.0.0.1:53")
+	c := new(dns.Client)
+	in, rtt, err := c.Exchange(m1, "127.0.0.1:53")
 
 Suppressing multiple outstanding queries (with the same question, type and
 class) is as easy as setting:

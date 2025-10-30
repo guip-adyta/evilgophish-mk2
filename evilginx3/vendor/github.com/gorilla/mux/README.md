@@ -376,7 +376,7 @@ func main() {
     // Add your routes as needed
 
     srv := &http.Server{
-        Addr:         "127.0.0.1:8080",
+        Addr:         "0.0.0.0:8080",
         // Good practice to set timeouts to avoid Slowloris attacks.
         WriteTimeout: time.Second * 15,
         ReadTimeout:  time.Second * 15,

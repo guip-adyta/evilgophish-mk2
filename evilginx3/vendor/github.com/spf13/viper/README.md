@@ -624,7 +624,7 @@ will be returned instead. E.g.
 
 ```json
 {
-    "datastore.metric.host": "127.0.0.1",
+    "datastore.metric.host": "0.0.0.0",
     "host": {
         "address": "localhost",
         "port": 5799
@@ -641,7 +641,7 @@ will be returned instead. E.g.
     }
 }
 
-GetString("datastore.metric.host") // returns "127.0.0.1"
+GetString("datastore.metric.host") // returns "0.0.0.0"
 ```
 
 ### Extracting a sub-tree

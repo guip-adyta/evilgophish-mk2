@@ -112,7 +112,7 @@ func (r *Result) HandleSMSSent() error {
 	if conf.FeedEnabled {
 		err = r.NotifySMSSent()
 		if err != nil {
-			log.Errorf("Error sending websocket message: %v", err)
+			log.Error("Error sending websocket message: %v", err)
 		}
 	}
 
@@ -134,7 +134,7 @@ func (r *Result) HandleEmailSent() error {
 	if conf.FeedEnabled {
 		err = r.NotifyEmailSent()
 		if err != nil {
-			log.Errorf("Error sending websocket message: %v", err)
+			log.Error("Error sending websocket message: %v", err)
 		}
 	}
 

@@ -89,12 +89,11 @@ func setupCampaign(id int) (*models.Campaign, error) {
 	}
 	c.Template = template
 
-	/*page, err := models.GetPage(1, 1)
+	page, err := models.GetPage(1, 1)
 	if err != nil {
 		return nil, err
 	}
 	c.Page = page
-	*/
 
 	smtp, err := models.GetSMTP(1, 1)
 	if err != nil {

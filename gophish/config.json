@@ -11,9 +11,9 @@
         "cert_path": "gophish_template.crt",
         "key_path": "gophish_template.key"
     },
-    "feed_enabled": true,
+    "feed_enabled": false,
     "db_name": "sqlite3",
-    "db_path": "/opt/gophish/db/gophish.db",
+    "db_path": "gophish.db",
     "migrations_prefix": "db/db_",
     "contact_address": "",
     "logging": {

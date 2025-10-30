@@ -109,7 +109,7 @@ func (s *ModelsSuite) TestDuplicateResults(ch *check.C) {
 	c := Campaign{Name: "Test campaign"}
 	c.UserId = 1
 	c.Template = t
-	//c.Page = p
+	c.Page = p
 	c.SMTP = smtp
 	c.Groups = []Group{group}
 

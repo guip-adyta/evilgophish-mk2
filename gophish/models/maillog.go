@@ -254,17 +254,15 @@ func (m *MailLog) Generate(msg *gomail.Message) error {
 		addAttachment(msg, a, ptx)
 	}
 	// Attach QR code file if size was specified
-	/*
-		if c.QRSize != "" {
-			attachment := Attachment{
-				Name:        ptx.QRName,
-				Content:     ptx.QRBase64,
-				Type:        "image/png",
-				vanillaFile: true,
-			}
-			addAttachment(msg, attachment, ptx)
+	if c.QRSize != "" {
+		attachment := Attachment{
+			Name:        ptx.QRName,
+			Content:     ptx.QRBase64,
+			Type:        "image/png",
+			vanillaFile: true,
 		}
-	*/
+		addAttachment(msg, attachment, ptx)
+	}
 
 	return nil
 }

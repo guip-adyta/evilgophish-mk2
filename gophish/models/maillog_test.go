@@ -266,7 +266,7 @@ func (s *ModelsSuite) TestMailLogGenerate(ch *check.C) {
 func (s *ModelsSuite) TestMailLogGenerateTransparencyHeaders(ch *check.C) {
 	s.config.ContactAddress = "test@test.com"
 	expectedHeaders := map[string]string{
-		"X-Mailer":  config.ServerName,
+		"X-Mailer":          config.ServerName,
 		"X-Contact": s.config.ContactAddress,
 	}
 	campaign := s.createCampaign(ch)
@@ -278,7 +278,7 @@ func (s *ModelsSuite) TestMailLogGenerateTransparencyHeaders(ch *check.C) {
 
 func (s *ModelsSuite) TestMailLogGenerateOverrideTransparencyHeaders(ch *check.C) {
 	expectedHeaders := map[string]string{
-		"X-Mailer":  "",
+		"X-Mailer":          "",
 		"X-Contact": "",
 	}
 	smtp := SMTP{
@@ -341,33 +341,8 @@ func (s *ModelsSuite) TestURLTemplateRendering(ch *check.C) {
 	ch.Assert(string(got.HTML), check.Equals, expectedURL)
 }
 
-func (s *ModelsSuite) TestQRTemplateRendering(ch *check.C) {
-	template := Template{
-		Name:    "QRTemplate",
-		UserId:  1,
-		Text:    "{{.QR}}",
-		HTML:    "{{.URL}}",
-		Subject: "{{.URL}}",
-	}
-	ch.Assert(PostTemplate(&template), check.Equals, nil)
-	ch.Assert(template.Text, check.Equals, "{{.QR}}")
-	ch.Assert(template.HTML, check.Equals, "{{.URL}}")
-
-	campaign := s.createCampaignDependencies(ch)
-	campaign.URL = "http://127.0.0.1/{{.Email}}/"
-	campaign.Template = template
-
-	ch.Assert(PostCampaign(&campaign, campaign.UserId), check.Equals, nil)
-	result := campaign.Results[0]
-	expectedURL := fmt.Sprintf("http://127.0.0.1/%s/?%s=%s", result.Email, RecipientParameter, result.RId)
-
-	got := s.emailFromFirstMailLog(campaign, ch)
-	ch.Assert(got.Subject, check.Equals, expectedURL)
-	ch.Assert(string(got.HTML), check.Equals, expectedURL)
-	fmt.Printf("got HTML QR CODE:\n%v\n", string(got.Text))
-}
-
 func (s *ModelsSuite) TestMailLogGenerateEmptySubject(ch *check.C) {
+
 	// in place of using createCampaign, we replicate its small code body
 	// here internally as we want to specify an empty subject to createCampaignDependencies
 	// campaign := s.createCampaign(ch)

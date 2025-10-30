@@ -202,7 +202,7 @@ func setupCampaign(b *testing.B, size int) Campaign {
 	campaign := Campaign{Name: "Test campaign"}
 	campaign.UserId = 1
 	campaign.Template = Template{Name: "Test Template"}
-	//campaign.Page = Page{Name: "Test Page"}
+	campaign.Page = Page{Name: "Test Page"}
 	campaign.SMTP = SMTP{Name: "Test Page"}
 	campaign.Groups = []Group{Group{Name: "Test Group"}}
 	PostCampaign(&campaign, 1)
@@ -217,7 +217,7 @@ func BenchmarkCampaign100(b *testing.B) {
 		campaign := Campaign{Name: "Test campaign"}
 		campaign.UserId = 1
 		campaign.Template = Template{Name: "Test Template"}
-		//campaign.Page = Page{Name: "Test Page"}
+		campaign.Page = Page{Name: "Test Page"}
 		campaign.SMTP = SMTP{Name: "Test Page"}
 		campaign.Groups = []Group{Group{Name: "Test Group"}}
 
@@ -242,7 +242,7 @@ func BenchmarkCampaign1000(b *testing.B) {
 		campaign := Campaign{Name: "Test campaign"}
 		campaign.UserId = 1
 		campaign.Template = Template{Name: "Test Template"}
-		//campaign.Page = Page{Name: "Test Page"}
+		campaign.Page = Page{Name: "Test Page"}
 		campaign.SMTP = SMTP{Name: "Test Page"}
 		campaign.Groups = []Group{Group{Name: "Test Group"}}
 
@@ -267,7 +267,7 @@ func BenchmarkCampaign10000(b *testing.B) {
 		campaign := Campaign{Name: "Test campaign"}
 		campaign.UserId = 1
 		campaign.Template = Template{Name: "Test Template"}
-		//campaign.Page = Page{Name: "Test Page"}
+		campaign.Page = Page{Name: "Test Page"}
 		campaign.SMTP = SMTP{Name: "Test Page"}
 		campaign.Groups = []Group{Group{Name: "Test Group"}}
 
